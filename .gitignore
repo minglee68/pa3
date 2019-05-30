@@ -1,5 +1,13 @@
 *.so
 abba
-extraabba
+singlelock
+gatelock
+segmentlock
 dinning_deadlock
 dinning
+gabba
+gsinglelock
+ggatelock
+gsegmentlock
+gdinning_deadlock
+gdinning
