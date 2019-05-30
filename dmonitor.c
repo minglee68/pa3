@@ -16,45 +16,48 @@ static int try[100][10];
 static pthread_mutex_t *mutex_index[100] = {NULL};
 static unsigned int thread_index[10] = {0};
 
-int check_lock(int orig_thread, int mutex_flag, char * output, int thread_flag);
-int check_try(int orig_thread, int thread_flag, char * output, int mutex_flag);
-int check_lock_a(int orig_mutex, int mutex_flag);
-int check_try_a(int orig_mutex, int thread_flag);
+void check_lock(int orig_thread, int mutex_flag, char * output, int thread_flag, FILE * fp);
+void check_try(int orig_thread, int thread_flag, char * output, int mutex_flag, FILE * fp);
 
-int check_lock(int orig_thread, int mutex_flag, char * output, int thread_flag) {
+void check_lock(int orig_thread, int mutex_flag, char * output, int thread_flag, FILE * fp) {
 	int i = 0;
 	int result = 0;
 	for(i = 0; i < 10; i++) {
+		char temp[10000] = "";
 		if (lock[i][mutex_flag] == 1) {
-			//fprintf(stderr, "->lock on m%d by t%d(%d)", mutex_flag, i, orig_thread);
 			if (i == thread_flag) continue;
-			sprintf(output, "%s>t%d,m%d", output, i, mutex_flag);
-			if (i == orig_thread)
-				return -1;
-			return check_try(orig_thread, i, output, mutex_flag);
-			//result = check_try(orig_thread, i, output);
+			strcpy(temp, output);
+			//fprintf(stderr, "->lock on m%d by t%d(%d)", mutex_flag, i, orig_thread);
+			sprintf(temp, "%s>t%d,m%d", output, i, mutex_flag);
+			if (i == orig_thread) {
+				fprintf(fp, "%s\n", temp);
+				return ;
+			}
+			//	return -1;
+			//return check_try(orig_thread, i, output, mutex_flag);
+			check_try(orig_thread, i, temp, mutex_flag, fp);
 			//if (result == -1) return -1;
 		}
 	}
 
-	return result;
+	fprintf(fp, "%s\n", output);
 }
 
-int check_try(int orig_thread, int thread_flag, char * output, int mutex_flag) {
+void check_try(int orig_thread, int thread_flag, char * output, int mutex_flag, FILE * fp) {
 	int i = 0;
 	int result = 0;
+	char temp[10000] = "";
 	for (i = 0; i < 100; i++) {
 		if (try[i][thread_flag] == 1) {
 			if (i == mutex_flag) continue;
-			sprintf(output, "%s>t%d,m%d", output, thread_flag, i);
+			strcpy(temp, output);
+			sprintf(temp, "%s>t%d,m%d", output, thread_flag, i);
 			//fprintf(stderr, "->try by t%d on m%d(%d)", thread_flag, i, orig_thread);
-			return check_lock(orig_thread, i, output, thread_flag);
-			//result = check_lock(orig_thread, i, output);
+			//return check_lock(orig_thread, i, output, thread_flag);
+			check_lock(orig_thread, i, temp, thread_flag, fp);
 			//if (result == -1) return -1;
 		}
 	}
-	
-	return result;
 }
 
 int pthread_mutex_lock(pthread_mutex_t *mutex) {
@@ -148,13 +151,14 @@ int pthread_mutex_lock(pthread_mutex_t *mutex) {
 
 		//fprintf(stderr, "(start %d)try by t%d on m%d", thread_flag, thread_flag, mutex_flag);
 		sprintf(output, "%s>t%d,m%d", output, thread_flag, mutex_flag);
-		if (check_lock(thread_flag, mutex_flag, output, thread_flag) == -1)
+		check_lock(thread_flag, mutex_flag, output, -1, fp);
 			//fprintf(stderr, "\nDeadlock Detected!(%d)", thread_flag);
 		//fprintf(stderr, "(end %d)\n", thread_flag);
-
+/*
 		fprintf(stderr, "%s\n", output);
 
 		fprintf(fp, "%s\n", output);
+*/
 	}
 
 	fclose(fp);

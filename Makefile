@@ -1,10 +1,12 @@
 all:
 	gcc -pthread -o abba abba.c
+	gcc -pthread -o singlelock singlelock.c
 	gcc -pthread -o gatelock gatelock.c
 	gcc -pthread -o segmentlock segmentlock.c
 	gcc -pthread -o dinning_deadlock dinning_deadlock.c
 	gcc -pthread -o dinning dinning.c
 	gcc -pthread -o gabba -g abba.c
+	gcc -pthread -o gsinglelock -g singlelock.c
 	gcc -pthread -o ggatelock -g gatelock.c
 	gcc -pthread -o gsegmentlock -g segmentlock.c
 	gcc -pthread -o gdinning_deadlock -g dinning_deadlock.c
