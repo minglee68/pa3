@@ -1,0 +1,28 @@
+>t1,m2
+>t0,m2>t1,m2
+>t1,m2
+>t0,m2
+>t1,m2
+>t0,m2
+>t1,m2
+>t0,m2
+>t1,m2
+>t0,m2
+>t1,m2
+>t0,m2
+./gabba() [0x4008c0]>t1,m1
+./gabba() [0x400961]>t0,m0
+./gabba() [0x400961]>t0,m2
+./gabba() [0x400961]>t0,m2
+./gabba() [0x400961]>t0,m2
+./gabba() [0x400961]>t0,m2
+./gabba() [0x400961]>t0,m2
+./gabba() [0x400961]>t0,m2
+./gabba() [0x400975]>t0,m1>t1,m1
+./gabba() [0x4008c0]>t1,m2
+./gabba() [0x4008c0]>t1,m2
+./gabba() [0x4008c0]>t1,m2
+./gabba() [0x4008c0]>t1,m2
+./gabba() [0x4008c0]>t1,m2
+./gabba() [0x4008c0]>t1,m2
+./gabba() [0x4008d4]>t1,m0>t0,m0>t0,m1>t1,m1
