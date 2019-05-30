@@ -1,4 +1,5 @@
 *.so
+*.trace
 abba
 singlelock
 gatelock
