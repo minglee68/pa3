@@ -149,6 +149,8 @@ int pthread_mutex_lock(pthread_mutex_t *mutex) {
 	
 	wait = 0;
 */
+	pthread_mutex_lockp(&mutex1);
+
 	lock[thread_flag][mutex_flag] = 1;
 	try[mutex_flag][thread_flag] = 0;
 
@@ -161,6 +163,8 @@ int pthread_mutex_lock(pthread_mutex_t *mutex) {
 	pthread_cond_signal();
 	pthread_mutex_unlockp(&mutex2);
 */
+	pthread_mutex_unlockp(&mutex1);
+
 	return temp;
 }
 
@@ -198,8 +202,12 @@ int pthread_mutex_unlock(pthread_mutex_t *mutex) {
 
 	int temp = pthread_mutex_unlockp(mutex);
 
+	pthread_mutex_lockp(&mutex1);
+
 	lock[thread_flag][mutex_flag] = 0;
 	
+	pthread_mutex_unlockp(&mutex1);
+
 	fprintf(stderr, "unlock on m%d by t%d\n", mutex_flag, thread_flag);
 
 	return temp;
