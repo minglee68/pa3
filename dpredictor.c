@@ -98,7 +98,21 @@ int check_segment(int length, int count) {
 	return 0;
 }
 
-int main(){
+int main(int argc, char **argv){
+
+	char exec_file[50];
+	char c;
+
+	while ((c = getopt (argc, argv, "f:")) != -1) {
+		switch (c){
+			case 'f'://get execution file name
+				strcpy(exec_file, strtok(argv[2], ":"));
+				break;
+		}
+	}
+
+	printf("%s\n", exec_file);
+
 	int i = 0;
 	FILE *fp = fopen("dmonitor.trace", "r");
 
@@ -205,7 +219,7 @@ int main(){
 					}
 					printf("Number of Threads in Deadlock : %d Threads\n", cnt);
 					printf("On the line of :\n");
-					sprintf(command, "addr2line -e gdinning_deadlock %s", s2);
+					sprintf(command, "addr2line -e %s %s", exec_file, s2);
 					system(command);
 					printf("\n");
 				}
