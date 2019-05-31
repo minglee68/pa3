@@ -17,8 +17,6 @@ static unsigned int thread_index[10] = {0};
 
 int check_lock(int orig_thread, int mutex_flag);
 int check_try(int orig_thread, int thread_flag);
-int check_lock_a(int orig_mutex, int mutex_flag);
-int check_try_a(int orig_mutex, int thread_flag);
 
 int check_lock(int orig_thread, int mutex_flag) {
 	int i = 0;
@@ -45,34 +43,6 @@ int check_try(int orig_thread, int thread_flag) {
 	
 	return 0;
 }
-
-/*
-int check_lock_a(int orig_mutex, int mutex_flag) {
-	int i = 0;
-	for(i = 0; i < 10; i++) {
-		if (lock[i][mutex_flag] == 1) {
-			fprintf(stderr, "->lock on m%d by t%d", mutex_flag, i);
-			return check_try_a(orig_mutex, i);
-		}
-	}
-
-	return 0;
-}
-
-int check_try_a(int orig_mutex, int thread_flag) {
-	int i = 0;
-	for (i = 0; i < 100; i++) {
-		if (try[i][thread_flag] == 1) {
-			fprintf(stderr, "->try by t%d on m%d", thread_flag, i);
-			if (i == orig_mutex)
-				return -1;
-			return check_lock_a(orig_mutex, i);
-		}
-	}
-	
-	return 0;
-}
-*/
 
 int pthread_mutex_lock(pthread_mutex_t *mutex) {
 
@@ -123,12 +93,6 @@ int pthread_mutex_lock(pthread_mutex_t *mutex) {
 
 	pthread_mutex_lockp(&mutex1);
 
-/*
-	while (wait == 1)
-		pthread_cond_wait();
-	
-	wait = 1;
-*/
 	try[mutex_flag][thread_flag] = 1;
 
 	fprintf(stderr, "(start %d)try by t%d on m%d", thread_flag, thread_flag, mutex_flag);
@@ -136,33 +100,17 @@ int pthread_mutex_lock(pthread_mutex_t *mutex) {
 		fprintf(stderr, "\nCyclic Deadlock Detected!(%d)", thread_flag);
 	fprintf(stderr, "(end %d)\n", thread_flag);
 
-//	pthread_cond_signal();
-
 	pthread_mutex_unlockp(&mutex1);
 
 	int temp = pthread_mutex_lockp(mutex);
-/*
-	pthread_mutex_lockp(&mutex2);
 
-	while (wait == 0)
-		pthread_cond_wait();
-	
-	wait = 0;
-*/
 	pthread_mutex_lockp(&mutex1);
 
 	lock[thread_flag][mutex_flag] = 1;
 	try[mutex_flag][thread_flag] = 0;
 
 	fprintf(stderr, "lock on m%d by t%d\n", mutex_flag, thread_flag);
-	//fprintf(stderr, "lock on m%d by t%d", mutex_flag, thread_flag);
-	//if (check_try_a(mutex_flag, thread_flag) == -1)
-	//	fprintf(stderr, "\nDeadlock Detected!\n");
-	//fprintf(stderr, "\n");
-/*
-	pthread_cond_signal();
-	pthread_mutex_unlockp(&mutex2);
-*/
+
 	pthread_mutex_unlockp(&mutex1);
 
 	return temp;
