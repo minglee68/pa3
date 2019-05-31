@@ -133,7 +133,7 @@ int pthread_mutex_lock(pthread_mutex_t *mutex) {
 
 	fprintf(stderr, "(start %d)try by t%d on m%d", thread_flag, thread_flag, mutex_flag);
 	if (check_lock(thread_flag, mutex_flag) == -1)
-		fprintf(stderr, "\nDeadlock Detected!(%d)", thread_flag);
+		fprintf(stderr, "\nCyclic Deadlock Detected!(%d)", thread_flag);
 	fprintf(stderr, "(end %d)\n", thread_flag);
 
 //	pthread_cond_signal();

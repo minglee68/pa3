@@ -210,6 +210,15 @@ int main(int argc, char **argv){
 				segment_bit = check_segment(j, i);
 				if (j >= 3)
 					gate_bit = check_gate(j, i);
+				
+				/* use!!
+				if (single_bit == 1)
+					printf("Single Thread Lock Detected!");
+				else if(segment_bit == 1)
+					printf("Gate Lock Detected!");
+				else if(gate_bit == 1)
+					printf("Segment Lock Detected!");
+				*/
 
 				if (single_bit != 1 && segment_bit != 1 && gate_bit != 1) {
 					printf("Potential Deadlock Found!\n");
