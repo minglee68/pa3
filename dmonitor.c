@@ -90,18 +90,18 @@ int pthread_mutex_lock(pthread_mutex_t *mutex) {
 		void * arr[10] ;
 		char ** stack ;
 
-		fprintf(stderr, "pthread_mutex_lock(%p):%d\n", mutex, (unsigned int) pthread_self()) ;
+		//fprintf(stderr, "pthread_mutex_lock(%p):%d\n", mutex, (unsigned int) pthread_self()) ;
 
 		size_t sz = backtrace(arr, 10) ;
 		stack = backtrace_symbols(arr, sz) ;
 
-		fprintf(stderr, "Stack trace\n") ;
-		fprintf(stderr, "============\n") ;
+		//fprintf(stderr, "Stack trace\n") ;
+		//fprintf(stderr, "============\n") ;
 		for (i = 0 ; i < sz ; i++)
 			if (i == 1) {
 				sprintf(addr, "%s", stack[i]) ;
 			}
-		fprintf(stderr, "============\n\n") ;
+		//fprintf(stderr, "============\n\n") ;
 	}
 
 	int thread_flag = -1;

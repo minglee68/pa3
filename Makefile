@@ -13,3 +13,4 @@ all:
 	gcc -pthread -o gdinning -g dinning.c
 	gcc -pthread -shared -fPIC -o ddetector.so ddetector.c -ldl
 	gcc -pthread -shared -fPIC -o dmonitor.so -g dmonitor.c -ldl
+	gcc -o dpredictor dpredictor.c
